@@ -1,0 +1,20 @@
+version: '3'
+services:
+  cards-service:
+    image: davidnkamura/cards-service:1.0
+    container_name: cards-service
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/eazybank_db
+    networks:
+      - eazybank
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+networks:
+  eazybank:
+    driver: "bridge"

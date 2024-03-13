@@ -1,0 +1,36 @@
+services:
+  network-deploy-service:
+    networks:
+      - eazybank
+
+  microservice-base-config:
+    extends:
+      service: network-deploy-service
+    deploy:
+      resources:
+        limits:
+          memory: 400m
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+      OTEL_METRICS_EXPORTER: none
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317
+#      JAVA_TOOL_OPTIONS: -javaagent:"/app/libs/opentelemetry-javaagent-1.32.0.jar"
+
+
+  microservice-configserver-config:
+    extends:
+      service: microservice-base-config
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://config-server:8071/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/eazybank_db
+      SPRING_DATASOURCE_PASSWORD: dev@sql101@postgresql
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8070/eureka/
+      LOGGING_PATTERN_LEVEL: "%5p [$${spring.application.name},%X{trace_id},%X{span_id}]"

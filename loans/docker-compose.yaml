@@ -1,0 +1,84 @@
+version: '3'
+services:
+  postgresql:
+    image: postgres
+    container_name: postgresql
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=sql101@postgresql
+      - POSTGRES_DB=eazybank_db
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - eazybank
+    deploy:
+      resources:
+        limits:
+          memory: 800m
+  accounts-service:
+    image: accounts-service:1.0
+    container_name: accounts-service
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/eazybank_db
+    depends_on:
+      - postgresql
+    links:
+      - postgresql
+    networks:
+      - eazybank
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+  loans-service:
+    image: davidnkamura/loans-service:1.0
+    container_name: loans-service
+    expose:
+      - 8090
+    ports:
+      - 8090:8090
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/eazybank_db
+    depends_on:
+      - postgresql
+    links:
+      - postgresql
+    networks:
+      - eazybank
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+  cards-service:
+    image: davidnkamura/cards-service:1.0
+    container_name: cards-service
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/eazybank_db
+    depends_on:
+      - postgresql
+    links:
+      - postgresql
+    networks:
+      - eazybank
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+volumes:
+  postgresql-data:
+    driver: local
+networks:
+  eazybank:
+    driver: "bridge"

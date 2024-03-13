@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+accounts:
+  message: "Welcome to the accounts microservice QA API"
+  contactDetails:
+    name: "David Ngumbu Kamura"
+    email: "davidngumbu115@gmail.com"
+  onCallSupport:
+    - 0892829210
+    - 0293839393
+

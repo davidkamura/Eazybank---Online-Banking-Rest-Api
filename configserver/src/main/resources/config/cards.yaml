@@ -1,0 +1,10 @@
+build:
+  version: "2.2"
+cards:
+  message: "Welcome to the cards microservice DEV API"
+  contactDetails:
+    name: "David Ngumbu Kamura"
+    email: "davidngumbu115@gmail.com"
+  onCallSupport:
+    - 0892829210
+    - 0293839393

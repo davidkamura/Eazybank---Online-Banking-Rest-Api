@@ -1,0 +1,10 @@
+build:
+  version: "1.9"
+loans:
+  message: "Welcome to the loans microservice PRODUCTION API"
+  contactDetails:
+    name: "David Ngumbu Kamura - Lead Software Engineer"
+    email: "davidngumbu115@eazybank.com"
+  onCallSupport:
+    - 0892829210
+    - 0293839393
