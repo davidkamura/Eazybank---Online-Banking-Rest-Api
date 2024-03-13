@@ -20,8 +20,8 @@ target/
 *.ipr
 
 ###Encryption keys#
-.jks
-.pub
+*.jks
+*.pub
 
 ### NetBeans ###
 /nbproject/private/
